@@ -1,0 +1,19 @@
+{
+  "name": "multi-promise",
+  "version": "0.0.1",
+  "description": "Tracks multiple promises",
+  "main": "PromiseTracker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProgrammerWithoutaName/multi-promise.git"
+  },
+  "author": "Programmer Without A Name",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ProgrammerWithoutaName/multi-promise/issues"
+  },
+  "homepage": "https://github.com/ProgrammerWithoutaName/multi-promise#readme"
+}
