@@ -2,22 +2,28 @@
 
 class PromiseAttachment {
     constructor(options) {
-        this.trackedItem = options.itemToTrack;
+        this.trackedPromise = options.trackedPromise;
+        this.attachmentPromise = new Promise((resolve, reject) => this.initializePromise(resolve, reject));
         this.onResolve = options.onResolve || (() => {});
         this.resolved = false;
+    }
+
+    initializePromise(resolve, reject) {
+        this._resolve = resolve;
+        this._reject = reject;
     }
 
     success(results) {
         this.results = results;
         this.resolved = true;
-        this.promiseResolution = Promise.resolve(results);
+        this._resolve(results);
         this.onResolve();
     }
 
     error(reason) {
         this.error = reason;
         this.resolved = true;
-        this.promiseResolution = Promise.reject(reason);
+        this._reject(reason);
         this.onResolve();
     }
 
@@ -25,14 +31,14 @@ class PromiseAttachment {
         this.exceptionCaught = true;
         this.error = reason;
         this.resolved = true;
-        this.promiseResolution = new Promise( () => { throw reason; } );
+        this._reject(reason);
         this.onResolve();
     }
 
-    attach(promise) {
-        promise.then(results => this.success(results), reason => this.error(reason))
+    attach() {
+        this.trackedPromise.then(results => this.success(results), reason => this.error(reason))
         .catch(reason => this.thrownError(reason));
-        return this.promiseResolution;
+        return this.attachmentPromise;
     }
 }
 
